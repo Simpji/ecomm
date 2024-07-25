@@ -1,0 +1,153 @@
+*{
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    margin:o;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+}
+
+
+.header{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 5rem;
+}
+.log{
+  font-size: 30px;
+}
+.header .navbar ul li {
+  display: inline-block;
+  padding-left: 2rem;
+  font-size: 1.2rem;
+}
+.steph{
+  height: 70vh;
+  position: relative;
+}
+.steph img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.steph .steph-container{
+  position: absolute;
+  top: 40%;
+  left: 10%;
+  z-index: 999;
+  transition: ease .5s;
+
+}
+.container{
+   margin:2% 15%;
+}
+.items div{
+  /* padding: 60px 20px; */
+  text-align: center;
+  background: #fff;
+  border-radius: 10px;
+  min-width: 250px;
+  scroll-snap-align: start;
+}
+.items{
+  /* margin: 2% 15%; */
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+.steph .like{
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: #000;
+  opacity: 0;
+}
+
+.card{
+  position: relative;
+  width: 100%;
+  margin-bottom: 2%;
+  border:  1px solid black;
+}
+.card img{
+  width: 100%;
+  object-fit: cover;
+  height: 300px;
+}
+.card .card-body{
+  width: 100%;
+  height: 100%;
+}
+.socials li{
+  display: inline;
+  padding-left: 7rem;
+}
+
+.table{
+  box-shadow: 0px 10px 15px -3px rgba(0,0,0,0,1);
+}
+.table table{
+  width: 100%;
+  align-items: center;
+  text-align: center;
+}
+.table table td, .table table th{
+  padding: .8rem;
+}
+.table table td form input{
+  width: 3rem;
+  border: none;
+  outline: none;
+}
+.table table td form input{
+  width: 3rem;
+  border: none;
+  outline: none;
+}
+.cform{
+  width: 100%;
+  margin: 1rem;
+}
+.cform form input{
+  margin-bottom: 1rem;
+}
+.cform form input{
+  width: 100%;
+  padding: .8rem;
+  border-radius: 12px;
+  border: 1px solid black;
+  outline: none;
+}
+.login input{
+  border-radius: 12px;
+  margin-bottom: 2%;
+}
+.footers{
+  width: 100%;
+  height: 50%;
+  display: flex;
+}
+.footers h1{
+  font-size: 30px;
+  padding: 0 2%;
+}
+.footer{
+  width: 50%;
+  font-size: 1.2rem;
+}
+.footer p{
+  width: 50%;
+}
+.link{
+  padding: 0 2%;
+  font-size: 20px;
+}
+marquee img{
+  display: inline;
+}
+
