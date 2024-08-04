@@ -2,11 +2,15 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { FaCheck } from "react-icons/fa";
 import { MdOutlinePlaylistRemove } from "react-icons/md";
+import { useContext } from 'react';
+import EcomContext from '../../context/EcomContext';
 
 
 function Cart() {
-  return (
-    <div>
+     const { cartItems, calculateSubTotal, calculateVat, calculateTotalAmount,  removeCartItems, updateCartItems }=useContext(EcomContext)
+
+     const cartTable = (
+        <div>
         <div className="container max-w-5xl mx-auto my-24">
             <div className="grid grid-cols-1">
                 <div className="p-3 table">
@@ -14,56 +18,35 @@ function Cart() {
                         <thead>
                             <tr>
                             <th>Name</th>
-                            <th>Product Images</th>
+                            <th>Image</th>
                             <th>Price</th>
-                            <th>Quanitity</th>
                             <th>Amount</th>
-                            <th>Update</th>
+                            <th>Quantity</th>
+                            {/* <th>Update</th> */}
                             <th>Remove</th>
                             </tr>
                         </thead>
 
-                    {/* </table> */}
+                  
 
                     <tbody>
-                    <tr>
-                        <td>Product 1</td>
-                        <td className="flex align-center justify-center"><img src="/img/tekp.jpg" width="50px" alt="" /></td>
-                        <td>#4657</td>
-                        <td>67</td>
-                        <td>#647675</td>
-                        <td>
-                           <form action="">
-                                <input type="number"  value="1" name="" id=""/>
-                                <button type="submit"><FaCheck/></button>
-                           </form>
-                        </td>
-                        <td>
-                           <form action="">
-                                <input type="hidden"  value="1" name="" id=""/>
-                                <button type="submit"><MdOutlinePlaylistRemove /></button>
-                           </form>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Product 1</td>
-                        <td className="flex align-center justify-center"><img src="/img/tekp.jpg" width="50px" alt="" /></td>
-                        <td>#4657</td>
-                        <td>67</td>
-                        <td>#647675</td>
-                        <td>
-                           <form action="">
-                                <input type="number"  value="1" name="" id=""/>
-                                <button type="submit"><FaCheck/></button>
-                           </form>
-                        </td>
-                        <td>
-                           <form action="">
-                                <input type="hidden"  value="1" name="" id=""/>
-                                <button type="submit"><MdOutlinePlaylistRemove /></button>
-                           </form>
-                        </td>
-                    </tr>
+                        {cartItems.map((items, index)=>(
+                            <tr key={index}>
+                                <td>{items.name}</td>
+                                <td className="flex align-center justify-center"><img src={items.img} width="50px" alt="" /></td>
+                                <td>#{items.price}</td>
+                                <td>#{items.amount}</td>
+                                <td>
+                                    <input type="number" value={items.quantity} className="outline outline-1"min={1} onChange={(e) => updateCartItems(items.id, e.target.value)}   name="" id=""/>
+                                    <button type="submit"><FaCheck /></button>
+                                </td>
+                                <td>
+                                    <button type="submit" onClick={() => removeCartItems(items.id)}><MdOutlinePlaylistRemove /></button>
+                                </td>
+                            </tr>
+                    ))}
+                   
+                   
                   </tbody>
                  </table>
 
@@ -77,7 +60,7 @@ function Cart() {
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td className="">Subtotal: # 4657</td>
+                            <td className="">Subtotal: # {calculateSubTotal().toFixed(2)}</td>
                         </tr>
                         <tr>
                             <td></td>
@@ -87,7 +70,7 @@ function Cart() {
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td className="">VAT (7.5%): 4657.098</td>
+                            <td className="">VAT (7.5%): #{calculateVat().toFixed(2)}</td>
                         </tr>
                         <tr>
                             <td></td>
@@ -97,7 +80,7 @@ function Cart() {
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td className="">Total:  4657.098</td>
+                            <td className="">Total:  #{calculateTotalAmount().toFixed(2)}</td>
                         </tr>
                         <tr>
                             <td></td>
@@ -115,6 +98,12 @@ function Cart() {
             </div>
         </div>
     </div>
+     )
+  return (
+     <div className="my-[5%] mx-[7%]">
+       <h1 className="text-center font-bold text-3xl mb-[5%]">Your Shop Cart</h1>
+       {cartItems.length > 0 ? cartTable : <p className="text-center">No Items in Cart</p>}
+     </div>
   )
 }
 

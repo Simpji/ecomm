@@ -1,6 +1,9 @@
 import React from 'react'
+import { useContext } from 'react'
+import EcomContext from '../../context/EcomContext'
 
 function Checkouts() {
+  const {cartItems, calculateTotalAmount} = useContext(EcomContext)
   return (
     <div>
       <div className="container max-w-6xl p-3 mx-auto my-24">
@@ -12,29 +15,25 @@ function Checkouts() {
               <thead>
                 <th>Name</th>
                 <th>Product Image</th>
-                <th>Quanitity</th>
+                <th>Quantity</th>
                 <th>Amount</th>
               </thead>
 
               <tbody>
-                <tr>
-                  <td>Product 1</td>
+                {cartItems.map((items) =>(
+                  <>
+                  <tr>
+                  <td>{items.name}</td>
                   <td className="flex align-center justify-center">
-                    <img src="/img/tekp.jpg" alt="" width="50px" />
+                    <img src={items.img} alt="" width="50px" />
+                    
                   </td>
-
-                  <td>67</td>
-                  <td>#64767567</td>
+                  <td>{items.quantity}</td>
+                  <td>#{items.price}</td>
                 </tr>
-                <tr>
-                  <td>Product 2</td>
-                  <td className="flex align-center justify-center">
-                    <img src="/img/tekp.jpg" alt="" width="50px" />
-                  </td>
-
-                  <td>67</td>
-                  <td>#64767567</td>
-                </tr>
+                </>
+                ))}
+                
               </tbody>
             </table>
             <table>
@@ -47,7 +46,7 @@ function Checkouts() {
                   <td></td>
                   <td></td>
                   <td></td>
-                  <td className="">Total:  4657.098</td>
+                  <td className="">Total:  #{calculateTotalAmount().toFixed(2)}</td>
                 </tr>
               </tbody>
             </table>

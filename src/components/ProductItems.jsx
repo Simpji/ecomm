@@ -11,7 +11,7 @@ function ProductItems({product_item_prop}) {
                 <h2 className='text-xl font-bold uppercase pt-3 pb-2'>{product_item_prop.name}</h2>
                 <h5 className='text-xl font-bold uppercase pt-3 pb-2'>{product_item_prop.price}</h5>
                 <p className='pb-5'>{product_item_prop.description}</p>
-                <Link to={`details/${product_item_prop.name}`} className='product-btn p-2 text-[#fff] rounded capitalize  hover:bg-[#A42CD6] bg-[#502274]'>See more</Link>
+                <Link to={`/details/${product_item_prop.id}`}className='product-btn p-2 text-[#fff] rounded capitalize  hover:bg-[#A42CD6] bg-[#502274] me'>See more</Link>
             </div>
         </div>
        </div>

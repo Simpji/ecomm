@@ -18,7 +18,7 @@ function Banner() {
 
        
         <div className="carousel-indicators">
-            <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#demo" data-bs-slide-to="0" className="active"></button>
             <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
             <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
         </div>
@@ -26,7 +26,7 @@ function Banner() {
         
         <div className="carousel-inner steph">
             <div className="carousel-item active steph">
-                <img src="/img/smart10.jpg" alt="Los Angeles" className="d-block w-100"  />
+                <img src="/img/ipoint9.jpg" alt="Los Angeles" className="d-block w-100"  />
                 <div className='like'></div>
                 <div className="carousel-caption steph-container font-bold text-4xl uppercase text-[#fff]">
                     <h2>Welcome to Simple Stores</h2>
@@ -36,7 +36,7 @@ function Banner() {
             </div>
             <div className="carousel-item steph">
                 <img src="/img/ipoint6.jpg" alt="Chicago" className="d-block w-100"  />
-                <div class="carousel-caption steph-container font-bold text-4xl uppercase text-[#fff]">
+                <div className="carousel-caption steph-container font-bold text-4xl uppercase text-[#fff]">
                     <h2>Welcome to Simple Stores</h2>
                    <h2>Lorem ipsum dolor sit amet consectetur.</h2>
                   <Link to="" className=''>See Products</Link>
@@ -44,7 +44,7 @@ function Banner() {
             </div>
             <div className="carousel-item steph">
                 <img src="/img/ipoint5.webp" alt="New York" className="d-block w-100" />
-                <div class="carousel-caption steph-container font-bold text-4xl uppercase text-[#fff]">
+                <div className="carousel-caption steph-container font-bold text-4xl uppercase text-[#fff]">
                     <h2>Welcome to Simple Stores</h2>
                    <h2>Lorem ipsum dolor sit amet consectetur.</h2>
                   <Link to="" className=''>See Products</Link>
@@ -65,4 +65,4 @@ function Banner() {
   )
 }
 
-export default Banner
+export default Banner;

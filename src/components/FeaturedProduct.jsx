@@ -8,7 +8,7 @@ function FeaturedProduct() {
      <div>
      <h1 className='text-2xl  my-5 uppercase font-bold text-center'>Featured Product</h1>
     <div className='container max-w-6xl flex'>
-        <div className='flex gap-3 items'>
+        <div className='flex gap-4 items'>
             {featuredProduct.map((items, index) => (
                 <ProductItems key={index} product_item_prop={items}/>
             ))}
@@ -18,4 +18,4 @@ function FeaturedProduct() {
   )
 }
 
-export default FeaturedProduct
+export default FeaturedProduct;
