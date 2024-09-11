@@ -13,7 +13,6 @@ function TopSelling() {
                 <ProductItems key={index} product_item_prop={items}/>
             ))}
         </div>
-       <marquee behavior="" direction=""> <img src="/img/ipoint7.jpg" alt=""/></marquee>
         </div>
     </div>
   )

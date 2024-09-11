@@ -26,6 +26,7 @@
 .steph{
   height: 70vh;
   position: relative;
+  background-attachment: fixed;
 }
 .steph img{
   width: 100%;
@@ -46,7 +47,7 @@
 .items div{
   padding: 20px 0px;
   text-align: center;
-  background: #fff;
+  /* background: #fff; */
   border-radius: 10px;
   min-width: 250px;
   scroll-snap-align: start;
@@ -130,6 +131,16 @@
   border: 1px solid black;
   outline: none;
 }
+.logins input{
+  width: 300px;
+  border: 2px solid slategrey;
+  padding: 2%;
+  border-radius: 12px;
+}
+.logins-reg{
+  width: 380px;
+}
+
 .login input{
   border-radius: 12px;
   margin-bottom: 2%;

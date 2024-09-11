@@ -1,7 +1,6 @@
 import {createContext, useContext, useEffect, useState } from "react";
 import useAlert from "../hooks/useAlert";
 import AuthContext from "./AuthContext";
-import useLocalStorage from "../hooks/useLocalStorage";
 
 
 const EcomContext = createContext();
@@ -13,11 +12,10 @@ const [cartItems, setCartItems] = useState([])
 const [order, setOrder] = useState(null)
 const [state, dispatch] = useContext(AuthContext);
 const isAuthenticated = state.accessToken  !== null;
-const { setItem, getItem } =  useLocalStorage();
 
 useEffect(() =>{
-    fetchData();
-    fetchCart();
+    fetchData()
+    fetchCart()
 }, [])
 
 const fetchData = async () => {
@@ -35,58 +33,32 @@ const topSelling = product.filter((product) => product.topSelling === true)
 
 
 // adding items to cart
-const addToCart =  async (productId, quantity, product) => {
-    if (isAuthenticated) {
-        //if isAuthenticated
-        try {
-            const res = await fetch("http://localhost:8000/api/add-to-cart", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "auth-token": `${localStorage.getItem("auth-token")}`,
-                },
-                body: JSON.stringify({ productId, quantity })
-            })
-            const data = await res.json();
-            if (res.ok) {
-                setCartItems(data);
-                showHide("success", "You have successfully added item to cart");
-            }else{
-                showHide("error", "product was not added to cart")
-            }
-        } catch (error) {
-            console.log(error);
-        }
-          //if unauthenticated
-    } else {
-        const storedCart = JSON.parse(getItem("cart")) || { products: [] };
-        const ItemIndex = storedCart.products.findIndex(
-            (item) => item.product._id === productId
-        );
-
-        if (ItemIndex >= 0) {
-            storedCart.products[ItemIndex].quantity += 1;
-            storedCart.products[ItemIndex].amount = product.price * storedCart.products[ItemIndex].quantity;
+const addToCart =  async (productId, quantity) => {
+    try {
+        const res = await fetch("http://localhost:8000/api/add-to-cart", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "auth-token": `${localStorage.getItem("auth-token")}`,
+            },
+            body: JSON.stringify({ productId, quantity })
+        })
+        const data = await res.json();
+        if (res.ok) {
+            setCartItems(data);
+            showHide("success", "You have successfully added item to cart");
         }else{
-            storedCart.products.push({
-                product,
-                quantity: 1,
-                amount: product.price * 1,
-            })
-            console.log(product);
+            showHide("error", "product was not added to cart")
         }
-
-        localStorage.setItem("cart", JSON.stringify(storedCart));
-        showHide("success", "product added to cart successfully");
-        setCartItems(storedCart);
+    } catch (error) {
+        console.log(error);
     }
-    };
+};
 
 
 // fetch cart
 const fetchCart = async () => {
-   if (isAuthenticated) {
-     const res = await fetch("http://localhost:8000/api/cart", {
+    const res = await fetch("http://localhost:8000/api/cart", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -95,19 +67,10 @@ const fetchCart = async () => {
     })
     const data = await res.json();
     if (res.ok) {
-        setCartItems(data.products)
+        setCartItems(data.product && data)
     }else{
         showHide("error", "Could not get cart")
     }
-   } else {
-    const localCart = getItem("cart");
-    console.log(localCart);
-    if (localCart) {
-        setCartItems(JSON.parse(localCart));
-    }else{
-        setCartItems([]);
-    }
-   }
 }
 
 // const addToCart = (prod) => {
@@ -131,9 +94,7 @@ const fetchCart = async () => {
 
 //UP DATE CART ITEM
 const updateCartItems  = async(productId, quantity) =>{
-    if (isAuthenticated) {
-
-        try {
+    try {
         const res = await fetch("http://localhost:8000/api/update-cart", {
             method: "PUT",
             headers: {
@@ -143,45 +104,19 @@ const updateCartItems  = async(productId, quantity) =>{
             body: JSON.stringify({ productId, quantity })
         })
         const data = await res.json()
-        if (res.status === 200){
-        const existingItems = cartItems.products?.findIndex((items) => items.product._id === productId);
-        if (existingItems !== -1) {
-         const itemsInCart = [...cartItems.products]
-         const updateCartItems = itemsInCart[existingItems]
-         updateCartItems.quantity = parseInt(quantity, 10)
-         updateCartItems.amount = updateCartItems.product.price * updateCartItems.quantity
-         setCartItems({ ...cartItems, products: itemsInCart });
-          showHide("success", "Cart updated successfully");
+        if (res.ok){
+        const existingItems = cartItems.findIndex((items) => items.id === id);
+        const itemsInCart = [...cartItems]
+        const updateCartItems = itemsInCart[existingItems]
+        updateCartItems.quantity = parseInt(newQuantity, 10)
+        updateCartItems.amount = updateCartItems.price * updateCartItems.quantity
+        setCartItems(itemsInCart)
      }else{
         showHide("error",  "Could not update cart")
      }
-        }
-        
     } catch (error) {
         console.log(error);
     }
-        
-    } else {
-        const storedCart = JSON.parse(localStorage.getItem("cart")) || {
-            products: [],
-        }
-        const ItemIndex = storedCart.products.findIndex(
-            (item) => item.product._id === productId
-        );
-
-        if (ItemIndex >= 0) {
-            if (quantity === 0) {
-                storedCart.products.splice(ItemIndex, 1);
-            } else {
-                storedCart.products[ItemIndex].quantity = parseInt(quantity, 10);
-                storedCart.products[ItemIndex].amount = storedCart.products[ItemIndex].product.price * storedCart.products[ItemIndex].quantity;
-            }
-            localStorage.setItem("cart", JSON.stringify(storedCart));
-            setCartItems(storedCart.products);
-            showHide("success", "cart updated successfully")
-        }
-    }
-    
 }
 
 const createOrder = async( transaction_id, orderId) => {
@@ -237,9 +172,8 @@ const calculateTotalAmount = () =>{
 
 //remove cart item
 const removeCartItems =  async (productId) =>{
-     if(window,confirm("Are your sure you want to delete?..")){
-        if (isAuthenticated) {
-           try {
+    try {
+        if(window,confirm("Are your sure you want to delete?..")){
          const res = await fetch("http://localhost:8000/api/delete-cart", {
             method: "DELETE",
             headers: {
@@ -250,32 +184,14 @@ const removeCartItems =  async (productId) =>{
          })
          const data = await res.json()
          if(res.ok){
-            showHide("success", "Your product is successfully delete")
+            showHide("success", "Your product is successfull delete")
             setCartItems(data || data.product)
-            }
-        } catch (error) {
-            console.log(error);
-            
-        } 
-      } else {
-         const storedCart = JSON.parse(localStorage.getItem("cart")) || {
-            products: [],
          }
-         const ItemIndex = storedCart.products.findIndex(
-            (item) => item.product._id === productId
-         );
-
-         if (ItemIndex >= 0) {
-            storedCart.products.splice(ItemIndex, 1)
-            localStorage.setItem("cart", JSON.stringify(storedCart))
-            setCartItems(storedCart);
-            showHide("success", "Product removed from cart successfully")
-         } else {
-            showHide("error", "Product not found in cart..!")
-         }
-        }
-        }
-    
+     }
+    } catch (error) {
+        console.log(error);
+        
+    }
 }
 
 //  const deleteItems = cartItems.filter((items) => items.id !== id);

@@ -1,4 +1,5 @@
 import Header from "./components/Header"
+import useLocalStorage from './hooks/useLocalStorage'
 import { BrowserRouter as Router , Routes, Route } from "react-router-dom"
 import Product from "./components/Product"
 import TopSelling from "./components/TopSelling"
@@ -15,12 +16,18 @@ import { EcomProvider } from "./context/EcomContext"
 import Alert from "./components/Alert"
 import Loader from "./components/pages/Loader"
 import {  useEffect, useState } from "react"
+import { AuthProvider } from "./context/AuthContext"
+import Thankyou from "./components/pages/Thankyou"
 
 
 
 
 function App() {
+  const { getItem } = useLocalStorage ("auth-token");
+  const token = getItem();
+  const authInitialToken = {accessToken : token ?? null};
 const [loader, setLoader] = useState(true)
+
 
 useEffect(() => {
   const timer = setTimeout(() => {
@@ -29,9 +36,13 @@ useEffect(() => {
 
   return () => timer;
 }, [])
+
   return (
     <>
+    
     {loader ? <Loader /> : (
+      
+      <AuthProvider defaultState={authInitialToken}>
     <EcomProvider>
     <Router>
       <Alert />
@@ -59,10 +70,12 @@ useEffect(() => {
         <Route path="/login" element={<Login />}/>
         <Route path="/about" element={<About />}/>
         <Route path="/register" element={<Register />}/>
+        <Route path="/thankyou" element={<Thankyou />}/>
       </Routes>
       <Footer/>
     </Router>
     </EcomProvider>
+     </AuthProvider>
      )}
     </>
 

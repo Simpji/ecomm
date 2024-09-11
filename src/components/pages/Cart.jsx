@@ -7,7 +7,7 @@ import EcomContext from '../../context/EcomContext';
 
 
 function Cart() {
-     const { cartItems, calculateSubTotal, calculateVat, calculateTotalAmount,  removeCartItems, updateCartItems }=useContext(EcomContext)
+     const { cartItems, calculateSubTotal, calculateVat, calculateTotalAmount,  removeCartItems, updateCartItems }=useContext(EcomContext);
 
      const cartTable = (
         <div>
@@ -22,26 +22,23 @@ function Cart() {
                             <th>Price</th>
                             <th>Amount</th>
                             <th>Quantity</th>
-                            {/* <th>Update</th> */}
                             <th>Remove</th>
                             </tr>
                         </thead>
 
-                  
-
                     <tbody>
-                        {cartItems.map((items, index)=>(
-                            <tr key={index}>
-                                <td>{items.name}</td>
-                                <td className="flex align-center justify-center"><img src={items.img} width="50px" alt="" /></td>
-                                <td>#{items.price}</td>
-                                <td>#{items.amount}</td>
+                        {cartItems?.products?.map((item)=>(
+                            <tr key={item.product?._id}>
+                                <td>{item.product?.name}</td>
+                                <td className="flex align-center justify-center"><img src={item.product?.images[0]?.img} width="50px" alt="" /></td>
+                                <td>NGN{item.product?.price}</td>
+                                <td>NGN{item.amount}</td>
                                 <td>
-                                    <input type="number" value={items.quantity} className="outline outline-1"min={1} onChange={(e) => updateCartItems(items.id, e.target.value)}   name="" id=""/>
+                                    <input type="number" onChange={(e) => updateCartItems(item.product._id, e.target.value)} className="outline outline-1"min={1} value={item.quantity}  name="" id=""/>
                                     <button type="submit"><FaCheck /></button>
                                 </td>
                                 <td>
-                                    <button type="submit" onClick={() => removeCartItems(items.id)}><MdOutlinePlaylistRemove /></button>
+                                    <button type="submit" onClick={() => removeCartItems(item.product._id)}><MdOutlinePlaylistRemove /></button>
                                 </td>
                             </tr>
                     ))}
@@ -53,43 +50,43 @@ function Cart() {
                  <table>
                     <tbody>
                         <tr>
+                            {/* <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td></td>
-                            <td></td>
-                            <td className="">Subtotal: # {calculateSubTotal().toFixed(2)}</td>
+                            <td></td> */}
+                            <td className="">Subtotal: NGN{calculateSubTotal()}</td>
                         </tr>
                         <tr>
+                            {/* <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td></td>
-                            <td></td>
-                            <td className="">VAT (7.5%): #{calculateVat().toFixed(2)}</td>
+                            <td></td> */}
+                            <td className="">VAT (7.5%): NGN{calculateVat()}</td>
                         </tr>
                         <tr>
+                            {/* <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td></td>
-                            <td></td>
-                            <td className="">Total:  #{calculateTotalAmount().toFixed(2)}</td>
+                            <td></td> */}
+                            <td className="">Total:  NGN{calculateTotalAmount()}</td>
                         </tr>
                         <tr>
+                            {/* <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td></td>
-                            <td></td>
+                            <td></td> */}
                             <td><Link to="/checkouts" className="product-btn p-2 text-[#fff] rounded capitalize  hover:bg-[#A42CD6] bg-[#502274]">Checkout</Link></td>
                         </tr>
                     </tbody>
@@ -102,7 +99,8 @@ function Cart() {
   return (
      <div className="my-[5%] mx-[7%]">
        <h1 className="text-center font-bold text-3xl mb-[5%]">Your Shop Cart</h1>
-       {cartItems.length > 0 ? cartTable : <p className="text-center">No Items in Cart</p>}
+       {cartTable}
+       {/* {cartItems.length > 0 ? cartTable : <p className="text-center">No Items in Cart</p>} */}
      </div>
   )
 }

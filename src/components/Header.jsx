@@ -1,17 +1,32 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate} from 'react-router-dom'
 import { BsCart4 } from "react-icons/bs";
 import { useContext } from 'react';
 import { IoMenu } from "react-icons/io5";
 import EcomContext from '../context/EcomContext';
+import AuthContext from '../context/AuthContext';
 import { useState } from 'react';
+import useLocalStorage from '../hooks/useLocalStorage'
 
 function Header() {
   const [open, setOpen] = useState(false)
   const {cartItems} = useContext(EcomContext)
+  const { deleteItem } = useLocalStorage("auth-token");
+   const [ state, dispatch ] = useContext(AuthContext);
+   const redirect = useNavigate();
+   const { isAuthenticated, showHide } = useContext(EcomContext);
+
+   const logout = (e) => {
+      e.preventDefault();
+      dispatch({ type: "setToken", payload: null})
+      deleteItem(null);
+      redirect("/login");
+      showHide("success", "You are now logged out!...")
+   }
+
   return (
     <>
-    <div className=" bg-[#502274] text-[#fff] header flex items-center justify-evenly py-[15px] px[30px]">
+    <div className="mt-23 bg-[#502274] text-[#fff] header flex items-center justify-evenly py-[15px] px[30px]">
     <a href=""><h1 className="text-[24px] text-white font-bold">Simple Enterprise</h1></a>
  
 
@@ -21,14 +36,16 @@ function Header() {
     <Link to="/cart" className="relative">
       <i className="fa-solid fa-cart-shopping"></i>
       <BsCart4 className="text-xl"/>
-      <div className="absolute bottom-2 font-bold left-2 text-blue-950 bg-white text-center rounded-full h-4 w-4 text-[10px]">
+      <div className="absolute bottom-2 font-bold left-2 bg-white text-center text-black rounded-full h-4 w-4 text-[10px]">
         {cartItems.length}
       </div>
         </Link>
     <Link to="/login">Login</Link>
     <Link to="/register">Register</Link>
-    <Link to="/">Logout</Link> 
+    {/* {isAuthenticated ? ( <> */}
+    <Link onClick={logout}>Logout</Link> 
   </nav>
+  
     <button onClick={()=> setOpen(!open)} className="flex items-center justify-center w-[35px] h-[35px] lg:hidden">
     <IoMenu  className="text-3xl text-white"/>
     </button>
@@ -54,28 +71,7 @@ function Header() {
     </>
   
     
-    // <div>
-    //     <div className="bg-[#502274] text-[#fff] header">
-    //         <div className="log">
-    //           <Link to="">Simple Enterprise</Link>
-    //         </div>
-    //         <div className='navbar'>
-    //           <ul>
-    //             <li><Link to="/">Home</Link></li>
-    //             <li><Link to="/about">About</Link></li>
-    //             <li><Link to="/product">Product</Link></li>
-    //             <li><Link to="/cart" className='relative'>
-    //               <BsCart4 className="text-xl"/>
-    //               <div className="absolute bottom-2 font-bold left-2 text-blue-950 bg-white text-center rounded-full h-4 w-4 text-[10px]">
-    //                 {cartItems.length}
-    //               </div>
-    //               </Link></li>
-    //             <li><Link to="/login">Login</Link></li>
-    //             <li><Link to="">Sign up</Link></li>
-    //           </ul>
-    //         </div>
-    //     </div>
-    // </div>
+    
   )
 }
 

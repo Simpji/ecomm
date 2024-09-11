@@ -14,6 +14,7 @@
   "dependencies": {
     "concurrently": "^8.2.2",
     "json-server": "^1.0.0-beta.1",
+    "process": "^0.11.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.2.1",
